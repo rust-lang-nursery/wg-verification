@@ -1,1 +1,16 @@
 theme: jekyll-theme-minimal
+
+title: Formal Verification Working Group
+description: Formal methods and Rust, oh my!
+baseurl: ""
+url: ""
+
+navigation:
+  - text: Home
+    url: /
+  - text: Goals
+    url: /goals.md
+  - text: Current Projects
+    url: /projects
+  - text: Logs
+    url: /logs
