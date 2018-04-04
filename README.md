@@ -22,7 +22,7 @@ Investigate ways to combine program verification with broader testing frameworks
 
 ## Get Involved
 
-Join our [mailing list](rust-verification@googlegroups.com), [get in touch with us](mailto:verification@rust-lang.org) or open a pull request to let us know about your Rust verification project.
+Join our [mailing list](mailto:rust-verification@googlegroups.com), [get in touch with us](mailto:verification@rust-lang.org) or open a pull request to let us know about your Rust verification project.
 
 We follow the [Rust Code of Contact](https://www.rust-lang.org/en-US/conduct.html). Any concerns should be brought to [rust-mods@rust-lang.org](mailto:rust-mods@rust-lang.org)
 
