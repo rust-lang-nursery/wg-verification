@@ -1,3 +1,6 @@
+---
+layout: default
+---
 # Verification WG Goals
 
 ## Short Term

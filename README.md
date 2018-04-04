@@ -1,6 +1,7 @@
+---
+layout: default
+---
 # The Rust Verification working group
-
-This working group is intended to provide a forum for discussing ways in which the Rust programming language and tools can support verification.
 
 This working group is intended to provide a forum for all things formal methods and verification for Rust. We anticipate significant overlap in requirements for tools and want to provide a central repository to exchange ideas and share progress.
 
@@ -13,12 +14,12 @@ Most of the benefits of performing verification on Rust programs are directly de
 * A substantial subset can be transformed into pure functions
 
 ## Goals
-Develop formal foundations for the Rust language ([RustBelt](http://plv.mpi-sws.org/rustbelt/)).
-Extract required information from the compiler
-Design methods to formally verify programs written in Rust
-Investigate ways to combine program verification with broader testing frameworks
+* Develop formal foundations for the Rust language ([RustBelt](http://plv.mpi-sws.org/rustbelt/)).
+* Extract required information from the compiler
+* Design methods to formally verify programs written in Rust
+* Investigate ways to combine program verification with broader testing frameworks
 
-[More details](/goals.md)
+[More details](/goals.html)
 
 ## Get Involved
 
