@@ -14,3 +14,6 @@ navigation:
     url: /projects
   - text: Logs
     url: /logs
+
+plugins:
+- jekyll-menus
