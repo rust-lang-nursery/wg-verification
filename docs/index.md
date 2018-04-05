@@ -1,8 +1,9 @@
+---
+layout: default
+---
 # The Rust Verification working group
 
 This working group is intended to provide a forum for all things formal methods and verification for Rust. We anticipate significant overlap in requirements for tools and want to provide a central repository to exchange ideas and share progress.
-
-For an overview of our current status, visit our (WIP) [page](https://rust-lang-nursery.github.io/wg-verification/).
 
 ## Why Rust?
 
@@ -17,6 +18,8 @@ Most of the benefits of performing verification on Rust programs are directly de
 * Extract required information from the compiler
 * Design methods to formally verify programs written in Rust
 * Investigate ways to combine program verification with broader testing frameworks
+
+[More details](/goals.html)
 
 ## Get Involved
 
