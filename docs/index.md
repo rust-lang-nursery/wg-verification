@@ -19,7 +19,7 @@ Most of the benefits of performing verification on Rust programs are directly de
 * Design methods to formally verify programs written in Rust
 * Investigate ways to combine program verification with broader testing frameworks
 
-[More details](/goals.html)
+[More details](goals.html)
 
 ## Get Involved
 
