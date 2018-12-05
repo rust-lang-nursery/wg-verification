@@ -64,8 +64,11 @@ visitor and calling either `mir_validated` or `optimised_mir` on `tcx`
 as shown
 [here](https://github.com/vakaras/mir-dump/blob/892434c45311355e90a683f6df86d0984e16571a/src/mir_dumper.rs#L76).
 The current API seems to be sufficient for uses that only require to
-access MIR and types. However, accessing results of MIR analyses is
-not well-supported. For example:
+access MIR and types. For example, the definition id of a called method
+can be obtained as shown
+[here](https://github.com/vakaras/mir-dump/blob/89ba66d52d5bf28672b9b2aeca5899e72cdafabd/src/mir_dumper.rs#L216-L237).
+However, accessing results of MIR analyses is not well-supported. For
+example:
 
 1.  Results of the definitely initialised analysis are not accessible at
     all (I mention this just as an example – since analysis is very
@@ -85,7 +88,6 @@ not well-supported. For example:
 Requirements:
 
 +   Get the list of traits implemented by a specific type.
-+   Get the trait on whose method a call is performed.
 
 ### Multiple Crates
 
