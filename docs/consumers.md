@@ -81,6 +81,13 @@ example:
     likely to be a problem if we wanted to verify memory safety of
     unsafe code.
 
+## Error Reporting
+
+Nice errors can be easily reported by using the compiler's error
+reporting infrastructure. For example, an error at a specific location
+can be reported by calling
+[span_err_with_code](https://doc.rust-lang.org/nightly/nightly-rustc/rustc/session/struct.Session.html#method.span_err_with_code).
+
 ## Open Questions
 
 ### Traits
