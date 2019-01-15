@@ -29,11 +29,11 @@ fn max(a: u32, b: u32) -> u32 {
 }
 ```
 
-Currently, there is no way of type-checking custom Rust code in a
-specific context. A possible work-around is to generate dummy Rust code
-that corresponds to specifications. For example, one could type-check
-the specifications of the function `max` by generating the following
-function:
+Currently, there is no way of type and borrow checking custom Rust code
+in a specific context. A possible work-around is to generate dummy Rust
+code that corresponds to specifications. For example, one could
+type-check the specifications of the function `max` by generating the
+following function:
 ```rust
 fn max__spec(a: u32, b: u32) -> u32 {
     let result = max(a, b);
@@ -54,8 +54,8 @@ which means that one could not transform loop invariants. Therefore,
 either one has to use macro syntax `invariant!(i >= 0)` for defining
 loop invariants, or use the `krate` rewriting approach.
 
-Ideally the compiler would provide a query that allows type-checking an
-AST fragment in a specific context.
+Ideally the compiler would provide a query that allows type and borrow
+checking an AST fragment in a specific context.
 
 ## MIR, MIR analyses, Type Information
 
