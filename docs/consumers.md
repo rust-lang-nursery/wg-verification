@@ -57,29 +57,71 @@ loop invariants, or use the `krate` rewriting approach.
 Ideally the compiler would provide a query that allows type and borrow
 checking an AST fragment in a specific context.
 
-## MIR, MIR analyses, Type Information
+## MIR
 
 MIR of each function can be accessed by traversing the crate with a HIR
 visitor and calling either `mir_validated` or `optimised_mir` on `tcx`
 as shown
 [here](https://github.com/vakaras/mir-dump/blob/892434c45311355e90a683f6df86d0984e16571a/src/mir_dumper.rs#L76).
-The current API seems to be sufficient for uses that only require to
-access MIR and types. For example, the definition id of a called method
-can be obtained as shown
+The API of MIR struct is open enough to work with. For example, the
+definition id of a called method can be obtained as shown
 [here](https://github.com/vakaras/mir-dump/blob/89ba66d52d5bf28672b9b2aeca5899e72cdafabd/src/mir_dumper.rs#L216-L237).
-However, accessing results of MIR analyses is not well-supported. For
-example:
+However, there are no public APIs for accessing the information computed
+by various MIR analyses. Therefore, the consumers that need this
+information either have to reimplement these analyses (for example,
+definitely initialised analysis is sufficiently simple to achieve this)
+or use hacks to extract their results (an example hack used to extract
+the borrow checker information is described below).
 
-1.  Results of the definitely initialised analysis are not accessible at
-    all (I mention this just as an example – since analysis is very
-    simple, this is not a problem in practice).
-2.  Extracting the borrow checker information requires a hacky
-    work-around as described
-    [here](https://github.com/rust-lang-nursery/wg-verification/issues/13).
-3.  The borrow information is available only on `mir_validated` while
-    drop information is available only in `optimised_mir`. This is
-    likely to be a problem if we wanted to verify memory safety of
-    unsafe code.
+## Borrow Checker Information (Polonius)
+
+The borrow checker information that consumers need are:
+
+1.  The Polonius input facts. (The consumers may need to modify them
+    before running Polonius, for example, by replacing all moves of
+    borrows with reborrows.)
+2.  The mapping between reference typed MIR places and region
+    identifiers used in Polonius.
+3.  `restricts` and `borrow_live_at` Polonius output relations that are
+    used to compute may alias information. Also, the `subset` relation
+    for computing `restricts` and `borrow_live_at` of borrows that were
+    `killed`.
+
+As far as I know, the only way to get Polonius input facts is to
+[pass](https://github.com/vakaras/mir-dump/blob/master/src/driver.rs#L181)
+`-Znll-facts` flag to the compiler and then
+[parse](https://github.com/vakaras/mir-dump/blob/master/src/borrowck/facts.rs)
+the emitted CSV files. The most hacky part of this is
+[parsing](https://github.com/vakaras/mir-dump/blob/master/src/borrowck/facts.rs#L70)
+strings to restore actual IDs used in MIR.
+
+Obtaining the mapping requires
+[passing](https://github.com/vakaras/mir-dump/blob/master/src/driver.rs#L184)
+the `-Zdump-mir=renumber` flag to the compiler that makes it to dump a
+diagnostics file, which can then be
+[parsed](https://github.com/vakaras/mir-dump/blob/master/src/borrowck/regions.rs)
+to obtain the mapping.
+
+An ideal solution for me would be to have a query (or queries) on
+[TyCtxt](https://doc.rust-lang.org/nightly/nightly-rustc/rustc/ty/struct.TyCtxt.html)
+that returns Polonius input facts and a mapping between MIR places and
+region IDs. Having such a query would not only simplify verifiers that
+need Polonius information, but would also enable showing visualisations
+of borrows in the IDE (we already have some code for this).
+
+**Note:** The borrow information is available only on `mir_validated`
+while the drop information is available only in `optimised_mir`. This is
+likely to be a problem if we wanted to verify memory safety of unsafe
+code.
+
+## Type Information
+
+Compiler consumers based on MIR need to be able to resolve the type of a
+MIR Place, which can be done by calling the
+[ty](https://doc.rust-lang.org/nightly/nightly-rustc/rustc/mir/enum.Place.html#method.ty)
+method. For each type, a consumer needs a way of uniquely identifying it
+(also across runs) and for composite types to know from what they are
+composed.
 
 ## Error Reporting
 
